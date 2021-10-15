@@ -1,7 +1,22 @@
+import { useState } from "react";
+
 import video from "../data/video.js";
+import DetailInfo from "./DetailInfo.js";
+import ShowHideButton from "./ShowHideButton.js";
+import Search from "./Search.js";
 
 function App() {
-  console.log("Here's your data:", video);
+  
+  const [search,setSearch]=useState("")
+  const[commentList,setCommentList]=useState(video)
+  
+  function handleSearch(e){
+    setSearch(e.target.value)
+    const searchByName=commentList.comments.filter(item=>item.user.includes(e.target.value))
+    setCommentList(searchByName)
+  
+  }
+
 
   return (
     <div className="App">
@@ -13,6 +28,9 @@ function App() {
         allowFullScreen
         title="Thinking in React"
       />
+      <DetailInfo data={video}/>
+      <Search search={search} handleSearch={handleSearch}/>
+      <ShowHideButton data={commentList}/>
     </div>
   );
 }
